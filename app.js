@@ -305,7 +305,6 @@ captureDialog.addEventListener('close', () => {
     observers.forEach(observer => observer.disconnect()); observers.length = 0;
     scenes.forEach(scene => scene.finish());
     window.removeEventListener('scroll', scheduleRoute);
-    window.removeEventListener('resize', scheduleRoute);
     if (scrollFrame) cancelAnimationFrame(scrollFrame); scrollFrame = 0;
     enabled = !reducedMotion.matches && !manualPause && 'IntersectionObserver' in window;
     const hero = document.querySelector('.hero-video');
@@ -350,7 +349,6 @@ captureDialog.addEventListener('close', () => {
     }, {threshold:.2});
     chartElements.filter(chart => !chart.classList.contains('is-drawn')).forEach(chart => chartObserver.observe(chart)); observers.push(chartObserver);
     window.addEventListener('scroll', scheduleRoute, {passive:true});
-    window.addEventListener('resize', scheduleRoute, {passive:true});
     updateRoute();
   }
   motionToggle.addEventListener('click', () => { manualPause = !manualPause; configureMotion(); });
@@ -365,5 +363,6 @@ captureDialog.addEventListener('close', () => {
     if (document.hidden) scenes.forEach(scene => scene.finish());
     else scheduleRoute();
   });
+  window.addEventListener('resize', () => { measureRoute(); scheduleRoute(); }, {passive:true});
   configureMotion();
 })();
