@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -23,36 +23,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Import verified scene source bundle
-        run: |
-          python - <<'PYIMPORT'
-          import hashlib, io, urllib.request, zipfile
-          from pathlib import Path
-          request=urllib.request.Request('https://relevant-avito-services.relevant-1286.chatgpt.site/assets/swarm-scene-source.zip',headers={'User-Agent':'Relevant-GitHub-Pages'})
-          with urllib.request.urlopen(request,timeout=90) as response:
-              data=response.read()
-          if hashlib.sha256(data).hexdigest()!='24dd74c3b446722b8e9b3da62148bcedbc5f5cecd06fdfe97687368251916012':
-              raise SystemExit('Source bundle integrity check failed')
-          files={'index.html': '7d84dee3894462ca1ece21e6a4ac5cea75fa9c175b630ddd122f84823665eed6', 'styles.css': '2e307c5150d60082ec391c19839624e71ce7de79fa92edf67bd1cac30edbeee2', 'styles-sw14.css': '2e307c5150d60082ec391c19839624e71ce7de79fa92edf67bd1cac30edbeee2', 'app.js': '28521d79596df2c2109ce0826e26e6f4227a608e83d3d5ce447194c1587ef525', 'app-sw14.js': '28521d79596df2c2109ce0826e26e6f4227a608e83d3d5ce447194c1587ef525', 'swarm-example.html': '458714f5eff75ab8013e1cfc2225239e1de8539e243125f1cf158695e53f2c6e', 'swarm-rebuild.js': '3fcc7e24c3a2781579432412c25707428858b10b8a0c261a10c74deea6395ad8', 'assets/demo-vase.png': '2d91137e09073234e623a4fa6243902a48930174521c990343f8bc17ba10ef5b'}
-          with zipfile.ZipFile(io.BytesIO(data)) as archive:
-              if set(archive.namelist())!=set(files):
-                  raise SystemExit('Unexpected source bundle contents')
-              for name,expected in files.items():
-                  content=archive.read(name)
-                  if hashlib.sha256(content).hexdigest()!=expected:
-                      raise SystemExit('Integrity check failed: '+name)
-                  destination=Path(name)
-                  destination.parent.mkdir(parents=True,exist_ok=True)
-                  destination.write_bytes(content)
-                  print('Imported',name,len(content),'bytes')
-          PYIMPORT
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- index.html styles.css styles-sw14.css app.js app-sw14.js swarm-example.html swarm-rebuild.js assets/demo-vase.png
-          if ! git diff --cached --quiet; then
-            git commit -m "Store fictional listing rebuild scene"
-            git push
-          fi
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Prepare static site
