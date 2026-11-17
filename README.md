@@ -6,7 +6,11 @@
 
 ## Публикация
 
-GitHub Settings → Pages → Deploy from a branch → main → / (root).
+Адрес: https://sermoffice.github.io/relevant-avito-preview/ .
+
+GitHub Settings → Pages → Source: GitHub Actions. Сценарий `.github/workflows/pages.yml` публикует статические файлы при изменениях в `main`; его можно запустить вручную во вкладке Actions.
+
+Все изображения, видео и шрифты сохранены в `assets`. Страница и публикация не зависят от доступности ChatGPT.
 
 ## Источники материалов
 
