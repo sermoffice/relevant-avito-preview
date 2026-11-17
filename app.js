@@ -312,6 +312,7 @@ captureDialog.addEventListener('close', () => {
     else if (hero && !document.hidden) hero.play().catch(() => {});
     document.body.classList.toggle('motion-enabled', enabled);
     document.body.dataset.motion = enabled ? 'on' : 'off';
+    document.dispatchEvent(new CustomEvent('relevant:motionchange',{detail:{enabled}}));
     motionToggle.textContent = enabled ? 'Отключить анимацию' : 'Включить анимацию';
     motionToggle.setAttribute('aria-pressed', String(!enabled));
     motionToggle.hidden = reducedMotion.matches || !('IntersectionObserver' in window);
@@ -365,4 +366,27 @@ captureDialog.addEventListener('close', () => {
   });
   window.addEventListener('resize', () => { measureRoute(); scheduleRoute(); }, {passive:true});
   configureMotion();
+})();
+
+// The isolated example has no real seller data or links to an actual listing.
+(() => {
+  const embed=document.querySelector('[data-swarm-embed]');
+  if(!embed)return;
+  let visible=false;
+  const send=(type,values)=>embed.contentWindow?.postMessage({type,...values},location.origin);
+  const settings=()=>send('relevant-swarm:settings',{enabled:document.body.dataset.motion!=='off'});
+  embed.addEventListener('load',()=>{settings();send('relevant-swarm:visibility',{visible});});
+  document.addEventListener('relevant:motionchange',settings);
+  if('IntersectionObserver' in window){
+    const observer=new IntersectionObserver(entries=>{
+      visible=entries[0].isIntersecting;
+      send('relevant-swarm:visibility',{visible});
+    },{threshold:.12});
+    observer.observe(embed);
+  }else{visible=true;send('relevant-swarm:visibility',{visible});}
+  window.addEventListener('message',event=>{
+    if(event.source!==embed.contentWindow||event.origin!==location.origin||event.data?.type!=='relevant-swarm:size')return;
+    const height=Number(event.data.height);
+    if(Number.isFinite(height)&&height>0)embed.style.height=`${Math.max(400,Math.min(1500,height))}px`;
+  });
 })();
