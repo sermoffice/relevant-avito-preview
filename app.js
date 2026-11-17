@@ -372,6 +372,7 @@ captureDialog.addEventListener('close', () => {
 (() => {
   const embed=document.querySelector('[data-swarm-embed]');
   if(!embed)return;
+  embed.dataset.bridgeReady='true';
   let visible=false;
   const send=(type,values)=>embed.contentWindow?.postMessage({type,...values},location.origin);
   const settings=()=>send('relevant-swarm:settings',{enabled:document.body.dataset.motion!=='off'});
@@ -389,4 +390,5 @@ captureDialog.addEventListener('close', () => {
     const height=Number(event.data.height);
     if(Number.isFinite(height)&&height>0)embed.style.height=`${Math.max(400,Math.min(1500,height))}px`;
   });
+  settings();
 })();

@@ -15,6 +15,7 @@
   let animations = [], frame = 0, elapsed = duration, last = 0, state = 'finished';
   let parentEnabled = true, visible = window.parent === window, played = false, autoPaused = false;
   let lastSize = 0, resizeTimer = 0, lastWidth = innerWidth, assetsReady = false;
+  root.dataset.state=state;
   const plan = [
     ['nav',250,600,'wipe'],['breadcrumb',700,500,'text'],['title',1100,1200,'text'],
     ['photo',1750,1250,'photo'],['price',2300,650,'text'],['price-note',2700,450,'text'],
@@ -54,7 +55,9 @@
   function reportSize() {
     const height=Math.ceil(document.body.getBoundingClientRect().height);
     if(height!==lastSize && window.parent!==window) {
-      lastSize=height; window.parent.postMessage({type:'relevant-swarm:size',height},location.origin);
+      lastSize=height;
+      try { if(window.frameElement)window.frameElement.style.height=`${Math.max(400,Math.min(1500,height))}px`; } catch {}
+      window.parent.postMessage({type:'relevant-swarm:size',height},location.origin);
     }
   }
   function pause(automatic=false) {
@@ -140,6 +143,7 @@
   });
   controls.hidden=false;updateControls();
   if('ResizeObserver' in window)new ResizeObserver(reportSize).observe(root);
+  if('IntersectionObserver' in window)new IntersectionObserver(entries=>updateVisibility(entries[0].isIntersecting),{threshold:.08}).observe(root);
   const productImage = parts.photo.querySelector('img');
   Promise.all([document.fonts.ready,productImage.decode().catch(()=>{})]).then(()=>{
     assetsReady=true;reportSize();updateControls();
