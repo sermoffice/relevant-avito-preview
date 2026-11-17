@@ -9,8 +9,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/proxima-regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/proxima-bold.otf" as="font" type="font/otf" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=10">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=11">
+  <script src="app.js?v=11" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Перейти к содержанию</a>
@@ -166,8 +166,8 @@
           <div class="format-copy"><span class="tag">ПРИСУТСТВИЕ НА ПЛОЩАДКЕ</span><h3>Берём на себя<br>работу с аккаунтом</h3><p>Запускаем профиль с нуля или развиваем существующий. Создаём фото и видео с ИИ, готовим объявления, подключаем продвижение и поддерживаем общение с покупателями.</p><div class="format-audience"><span>С КЕМ РАБОТАЕМ</span><p>Физические лица, самозанятые, ООО и ИП.</p></div><ul class="check-list"><li>Оформление профиля и структуры предложений</li><li>Тексты, фото и видео с ИИ, дизайн и публикация</li><li>Обновление объявлений и управление продвижением</li><li>Ответы покупателям, отзывы и аналитика</li></ul><button class="text-link" data-brief="Создание и ведение аккаунта">Обсудить ведение аккаунта <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></button></div>
           <div class="format-visual screenshot-visual">
             <div class="screenshot-heading"><span class="media-overline">ПРИМЕР РАБОТЫ С ОБЪЯВЛЕНИЯМИ</span><h4>Все объявления —<br>под контролем</h4></div>
-            <div class="capture-shell"><div class="capture-toolbar"><span class="capture-dot"></span><span>Объявления и статистика</span><span class="privacy-label example-inline">Пример</span></div><button class="capture-image" data-capture="assets/avito-account-example.png" data-caption="Мои объявления — пример с условными показателями" aria-label="Увеличить обезличенный скриншот объявлений"><img src="assets/avito-account-example.png" width="1751" height="898" loading="lazy" alt="Демонстрационный пример кабинета Авито: условные просмотры, контакты и избранное; данные клиента скрыты"><span class="capture-zoom">Открыть скриншот <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></span></button></div>
-            <div class="account-focus"><span>Публикации</span><span>Обращения</span><span>Аналитика</span></div>
+            <div class="listing-scene" data-listing-scene data-stage="4"><div class="capture-shell"><div class="capture-toolbar"><span class="capture-dot"></span><span>Объявления и статистика</span><span class="privacy-label example-inline">Пример</span></div><button class="capture-image" data-capture="assets/avito-account-example.png" data-caption="Мои объявления — пример с условными показателями" aria-label="Увеличить обезличенный скриншот объявлений"><span class="assembly-viewport"><img src="assets/avito-account-example.png" width="1751" height="898" loading="lazy" alt="Демонстрационный пример кабинета Авито: условные просмотры, контакты и избранное; данные клиента скрыты"><span class="listing-tile listing-tile-cover" aria-hidden="true"></span><span class="listing-tile listing-tile-copy" aria-hidden="true"></span><span class="listing-tile listing-tile-results" aria-hidden="true"></span><span class="assembly-focus" aria-hidden="true"></span></span><span class="capture-zoom">Открыть скриншот <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></span></button></div>
+            <div class="assembly-controls"><ol class="assembly-steps" aria-label="Этапы оформления объявления"><li data-assembly-step="1"><span>01</span> Обложка</li><li data-assembly-step="2"><span>02</span> Текст</li><li data-assembly-step="3"><span>03</span> Публикация</li></ol><button type="button" class="motion-replay" data-assembly-replay aria-label="Повторить сборку объявления" hidden><span aria-hidden="true">↻</span> Повторить</button></div></div>
             <p class="capture-caption">Пример. Клиент скрыт, показатели условные.</p>
           </div>
         </div>
@@ -193,6 +193,19 @@
       </div>
     </section>
 
+    <section class="promotion-route-section" id="promotion-route" aria-labelledby="route-title">
+      <div class="container promotion-route" data-promotion-route>
+        <div class="route-heading"><div><p class="eyebrow">Путь клиента</p><h2 id="route-title">От креатива к обращению</h2></div><p>Каждый этап помогает человеку познакомиться с вашим предложением и сделать следующий шаг.</p></div>
+        <div class="route-path"><ol class="route-steps">
+          <li class="route-step"><span class="route-node"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8" cy="9" r="2"/><path d="m4 17 5-5 4 4 3-5 4 6"/></svg></span><div><span class="route-number">01</span><h3>Креатив</h3><p>Привлекаем внимание фото и подачей.</p></div></li>
+          <li class="route-step"><span class="route-node"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><div><span class="route-number">02</span><h3>Объявление</h3><p>Раскрываем продукт, цену и условия.</p></div></li>
+          <li class="route-step"><span class="route-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span><div><span class="route-number">03</span><h3>Просмотр</h3><p>Помогаем разобраться в предложении.</p></div></li>
+          <li class="route-step"><span class="route-node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H10l-6 4Z"/><path d="M8 8h8M8 12h5"/></svg></span><div><span class="route-number">04</span><h3>Обращение</h3><p>Отвечаем и передаём запрос в работу.</p></div></li>
+        </ol>
+        <div class="route-track" aria-hidden="true"><span></span></div></div>
+      </div>
+    </section>
+
     <section class="section" id="scope" aria-labelledby="scope-title"><div class="container">
       <p class="eyebrow">Состав работ</p><div class="section-intro"><h2 id="scope-title">Вся работа с Авито —<br>в одной команде</h2><p>Согласуем задачи и ответственность до старта. Вы можете заказать отдельную работу или передать нам регулярное ведение.</p></div>
       <div class="scope-grid">
@@ -212,9 +225,10 @@
       <div class="container analytics-evidence">
         <div class="evidence-heading"><div><span class="evidence-kicker">АНАЛИТИКА БЕЗ ДОГАДОК</span><h3>Видим динамику.<br>Понимаем расходы.</h3></div><p>Смотрим статистику по дням и разбираем, на что уходит бюджет. Ниже — примеры представления статистики и расходов.</p></div>
         <div class="evidence-grid">
-          <figure class="evidence-card"><figcaption><span>01 / ПРОСМОТРЫ</span><small class="example-badge">Пример</small><h4>Как меняется интерес</h4><p>Пример динамики просмотров за 30 дней.</p></figcaption><button class="capture-image" data-capture="assets/avito-views-example.png" data-caption="Статистика просмотров — пример с условными данными" aria-label="Увеличить график просмотров"><img src="assets/avito-views-example.png" width="2484" height="1366" loading="lazy" alt="Демонстрационный график просмотров: 12 480 за 30 дней"><span class="capture-zoom">Посмотреть целиком <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></span></button></figure>
-          <figure class="evidence-card"><figcaption><span>02 / РАСХОДЫ</span><small class="example-badge">Пример</small><h4>Куда направлен бюджет</h4><p>Пример распределения бюджета по инструментам.</p></figcaption><button class="capture-image" data-capture="assets/avito-expenses-example.png" data-caption="Распределение расходов — пример с условными данными" aria-label="Увеличить статистику расходов"><img src="assets/avito-expenses-example.png" width="2484" height="1366" loading="lazy" alt="Демонстрационное распределение бюджета: 62 400 рублей за 30 дней"><span class="capture-zoom">Посмотреть целиком <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></span></button></figure>
+          <figure class="evidence-card"><figcaption><span>01 / ПРОСМОТРЫ</span><small class="example-badge">Пример</small><h4>Как меняется интерес</h4><p>Пример динамики просмотров за 30 дней.</p></figcaption><button class="capture-image chart-capture" data-motion-chart="views" data-capture="assets/avito-views-example.png" data-caption="Статистика просмотров — пример с условными данными" aria-label="Увеличить график просмотров"><span class="chart-viewport"><img src="assets/avito-views-example.png" width="2484" height="1366" loading="lazy" alt="Демонстрационный график просмотров: 12 480 за 30 дней"><span class="chart-motion" aria-hidden="true"></span></span><span class="capture-zoom">Посмотреть целиком <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></span></button></figure>
+          <figure class="evidence-card"><figcaption><span>02 / РАСХОДЫ</span><small class="example-badge">Пример</small><h4>Куда направлен бюджет</h4><p>Пример распределения бюджета по инструментам.</p></figcaption><button class="capture-image chart-capture" data-motion-chart="expenses" data-capture="assets/avito-expenses-example.png" data-caption="Распределение расходов — пример с условными данными" aria-label="Увеличить статистику расходов"><span class="chart-viewport"><img src="assets/avito-expenses-example.png" width="2484" height="1366" loading="lazy" alt="Демонстрационное распределение бюджета: 62 400 рублей за 30 дней"><span class="chart-motion" aria-hidden="true"></span></span><span class="capture-zoom">Посмотреть целиком <span aria-hidden="true"><svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></span></span></button></figure>
         </div>
+        <button class="motion-replay chart-replay" type="button" data-chart-replay hidden><span aria-hidden="true">↻</span> Повторить анимацию графиков</button>
         <p class="evidence-note">Все значения на иллюстрациях условные и показывают принцип работы с аналитикой. Фактические показатели и бюджет определяются для каждого проекта.</p>
       </div>
     </section>
