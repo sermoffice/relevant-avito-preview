@@ -1,0 +1,75 @@
+name: Publish Relevant preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare static site
+        run: |
+          python - <<'PY'
+          import hashlib
+          import shutil
+          import urllib.request
+          from pathlib import Path
+
+          destination = Path('_site')
+          destination.mkdir(exist_ok=True)
+          for name in ('index.html', 'styles.css', 'app.js'):
+              shutil.copy2(name, destination / name)
+          (destination / '.nojekyll').touch()
+
+          # Keep original bytes; fail the build if an upstream file changes.
+          assets = {
+              'avito-account-example.png': '336024d3e9fd9f01ae1c0b02ede278988bf0a7056189b523d735dc1176d3f3dc',
+              'avito-ads-public.png': 'bde30a23aa3d8709cf70bde02a660c593f439d31e7a1bd9e98eadd4b59ceb3e0',
+              'avito-demand.png': 'e5555bf3369bbcb73fa4b0cb2f114b14902a3530f0c0b67af37bff24ca6f245b',
+              'avito-expenses-example.png': 'd3332a4794994ce1cceba180aa84d8e547b7016bc08d7447d3c55c34366a8c28',
+              'avito-logo.svg': '9b668256e7b784fc3dbef89d43fcd587f70a16401ca8491c2f85e1d8effe253e',
+              'avito-promo-public.png': '385685ca4d2d88db81faa0aac471b6b174531ec3d60d547253d715bb3c010ffa',
+              'avito-views-example.png': '7ae4557b382e61cc3496c15ff3fc71d152c254b22c56ec76670a0affd55f9abd',
+              'favicon.svg': 'a68ceef1e39c46b3482a5b4688846f853167ec4349526d4289abc1a7d089341c',
+              'hero.mp4': '338be0b6a877f31a54b782b37b33d019db951f39c83d2a6d3005a94226aa7c8f',
+              'logo.svg': '6b1adab577fad33aed4977d42949609ad5fcc99ef3c988fb082f570d9e0a4b84',
+              'proxima-bold.otf': 'fa617e6195b48622cd13742f0a33f41bd0a3f8b5689424c90f6cba97d4679644',
+              'proxima-regular.ttf': 'f715d9c3a8a59c2f8079955680d811dfdf069f769d8521d830c85ae3393dc6a8',
+          }
+          asset_directory = destination / 'assets'
+          asset_directory.mkdir(exist_ok=True)
+          source = 'https://relevant-avito-services.relevant-1286.chatgpt.site/assets/'
+          for name, expected_digest in assets.items():
+              request = urllib.request.Request(source + name, headers={'User-Agent': 'Relevant-GitHub-Pages'})
+              with urllib.request.urlopen(request, timeout=90) as response:
+                  data = response.read()
+              if hashlib.sha256(data).hexdigest() != expected_digest:
+                  raise SystemExit('Source integrity check failed: ' + name)
+              (asset_directory / name).write_bytes(data)
+              print('Prepared', name, len(data), 'bytes')
+          PY
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
