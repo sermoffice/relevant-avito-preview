@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -66,6 +66,16 @@ jobs:
               (asset_directory / name).write_bytes(data)
               print('Prepared', name, len(data), 'bytes')
           PY
+      - name: Archive original assets in the repository
+        run: |
+          cp -a _site/assets ./assets
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- assets
+          if ! git diff --cached --quiet; then
+            git commit -m "Store original website assets"
+            git push
+          fi
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
