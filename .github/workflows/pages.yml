@@ -23,22 +23,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Import verified scene files
+      - name: Import verified scene source bundle
         run: |
           python - <<'PYIMPORT'
+          import hashlib, io, urllib.request, zipfile
           from pathlib import Path
-          import hashlib, urllib.request
-          files = {'index.html': 'f87f24d222e114831ffc647a1dcdd7ed76c21ceb644d4f87af41aac6b94eafe5', 'styles.css': '2e307c5150d60082ec391c19839624e71ce7de79fa92edf67bd1cac30edbeee2', 'app.js': 'd942f41e674abf41b59a107f5599f8c201b0e7c7ec5473edf5a0769c49b9ba0d', 'swarm-example.html': '28838ddff1ed40d0412ce286b344e2f7d34486654782023dc7e65c92450ab66a', 'swarm-rebuild.js': 'f53b62e9389dbc01b027464250d61ee2ed0e03ef5d98c7020c825bebb38274e0', 'assets/demo-vase.png': '2d91137e09073234e623a4fa6243902a48930174521c990343f8bc17ba10ef5b'}
-          for name, expected in files.items():
-              request = urllib.request.Request('https://relevant-avito-services.relevant-1286.chatgpt.site/' + name, headers={'User-Agent':'Relevant-GitHub-Pages'})
-              with urllib.request.urlopen(request, timeout=90) as response:
-                  data = response.read()
-              if hashlib.sha256(data).hexdigest() != expected:
-                  raise SystemExit('Integrity check failed: ' + name)
-              destination = Path(name)
-              destination.parent.mkdir(parents=True, exist_ok=True)
-              destination.write_bytes(data)
-              print('Imported', name, len(data), 'bytes')
+          request=urllib.request.Request('https://relevant-avito-services.relevant-1286.chatgpt.site/assets/swarm-scene-source.zip',headers={'User-Agent':'Relevant-GitHub-Pages'})
+          with urllib.request.urlopen(request,timeout=90) as response:
+              data=response.read()
+          if hashlib.sha256(data).hexdigest()!='aa22923b339e2bba334d47bee4a0010715aba596c81c0d18bb0164d2e7ec655d':
+              raise SystemExit('Source bundle integrity check failed')
+          files={'index.html': 'f87f24d222e114831ffc647a1dcdd7ed76c21ceb644d4f87af41aac6b94eafe5', 'styles.css': '2e307c5150d60082ec391c19839624e71ce7de79fa92edf67bd1cac30edbeee2', 'app.js': 'd942f41e674abf41b59a107f5599f8c201b0e7c7ec5473edf5a0769c49b9ba0d', 'swarm-example.html': '28838ddff1ed40d0412ce286b344e2f7d34486654782023dc7e65c92450ab66a', 'swarm-rebuild.js': 'f53b62e9389dbc01b027464250d61ee2ed0e03ef5d98c7020c825bebb38274e0', 'assets/demo-vase.png': '2d91137e09073234e623a4fa6243902a48930174521c990343f8bc17ba10ef5b'}
+          with zipfile.ZipFile(io.BytesIO(data)) as archive:
+              if set(archive.namelist())!=set(files):
+                  raise SystemExit('Unexpected source bundle contents')
+              for name,expected in files.items():
+                  content=archive.read(name)
+                  if hashlib.sha256(content).hexdigest()!=expected:
+                      raise SystemExit('Integrity check failed: '+name)
+                  destination=Path(name)
+                  destination.parent.mkdir(parents=True,exist_ok=True)
+                  destination.write_bytes(content)
+                  print('Imported',name,len(content),'bytes')
           PYIMPORT
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
